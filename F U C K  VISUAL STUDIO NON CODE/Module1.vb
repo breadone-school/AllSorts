@@ -1,54 +1,53 @@
-﻿Module bubblesort
+﻿Module Module1
+
+    Dim array(50) As Integer
+
     Sub Main()
-        ShowTitleScreen()
+        Call ShowTitleScreen()
     End Sub
 
 
     Function GenerateRandomInt(ByRef bound As Integer) As Integer
         Dim rint As New Random
+        Dim rrint As Integer
         Randomize()
 
-        Return rint.Next
+        Return Int(Rnd() * bound) + 1
 
     End Function
 
     Sub ShowTitleScreen()
         Dim selection As Integer
-
-
-        Dim bound, array(50) As Integer
-
+        Dim bound As Integer
 
         Console.Write("what be the bound for random nums: ")
         bound = Console.ReadLine
 
         For i As Integer = 0 To 50
             array(i) = GenerateRandomInt(bound)
-            Console.Write(GenerateRandomInt(array(i) & ", "))
+            Console.Write(GenerateRandomInt(array(i)) & ", ")
         Next
 
         Console.WriteLine()
 
         Console.WriteLine("1. efficient buble")
-        Console.WriteLine("2. inefficiant bubbel (literally why)")
-        Console.WriteLine("3. insert sort")
+        Console.WriteLine("2. inefficient bubble")
+        Console.WriteLine("3. insert")
 
         Console.Write("what method of sorting would u like: ")
         selection = Console.ReadLine.ToString
 
         Select Case selection
             Case 1
-                Call EfficientBubbleSort(array)
+                Call EfficientBubbleSort()
             Case 2
-                Call InefficiantBubbleSort(array)
+                Call InefficiantBubbleSort()
             Case 3
-                Call insertsort(array)
-                'Case 5
-                'Call BinarySearch()
+                Call insertsort()
         End Select
     End Sub
 
-    Sub EfficientBubbleSort(ByRef array() As Integer)
+    Sub EfficientBubbleSort()
         Dim rint As New Random
         Dim sorted As Boolean = True
         Dim temp As Integer
@@ -64,12 +63,10 @@
             Next
         Loop While sorted = False
 
-        If BSearch() = True Then
-            Call BinarySearch(array)
-        End If
+        Call BSearch()
     End Sub
 
-    Sub InefficiantBubbleSort(ByRef array() As Integer)
+    Sub InefficiantBubbleSort()
         Dim rint As New Random
         Dim temp As Integer
 
@@ -80,13 +77,10 @@
                 array(i + 1) = array(i)
             End If
         Next
-
-        If BSearch() = True Then
-            Call BinarySearch(array)
-        End If
+        Call BSearch()
     End Sub
 
-    Sub insertsort(ByRef array() As Integer)
+    Sub insertsort()
         Dim toInsert, currentitem As Integer
 
 
@@ -101,30 +95,49 @@
 
             array(currentitem + 1) = toInsert
         Next
+        Call BSearch()
+    End Sub
 
-        If BSearch() = True Then
-            Call BinarySearch(array)
+    Sub BinarySearch(ByRef searchitem As String)
+        Dim found As Boolean = False
+        Dim searchFailed As Boolean = False
+
+        Dim first As Integer = 0
+        Dim middle As Integer
+        Dim last As Integer = array.Length
+
+        While found = False And searchFailed = False
+            middle = (first + last) / 2
+            If array(middle) = searchitem Then
+                found = True
+            ElseIf first >= last Then
+                searchFailed = True
+            ElseIf array(middle) > searchitem Then
+                last = middle - 1
+            Else
+                first = middle + 1
+            End If
+        End While
+
+        If found = True Then
+            Console.Write(middle)
+            Console.ReadKey()
+        Else
+            Console.Write("oops")
+            Console.ReadKey()
         End If
-    End Sub
-
-    Sub BinarySearch(ByVal array() As Integer)
-
-
-
 
     End Sub
 
-    Function BSearch() As Boolean
+    Sub BSearch()
         Console.Write("do u want to search or not (y/n): ")
         If Console.ReadLine = "y" Then
-            Return True
-        ElseIf Console.ReadLine = "n" Then
-            Return False
-        Else
-            Console.Write("bruh")
-            Return False
+            Console.Write("what to search: ")
+            Dim search As String = Console.ReadLine
+
+            Call BinarySearch(search)
         End If
-    End Function
+    End Sub
 
 
 
