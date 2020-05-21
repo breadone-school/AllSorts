@@ -7,100 +7,124 @@
     Function GenerateRandomInt(ByRef bound As Integer) As Integer
         Dim rint As New Random
         Randomize()
-        Return rint.Next(bound)
+
+        Return rint.Next
+
     End Function
 
     Sub ShowTitleScreen()
         Dim selection As Integer
 
-        Console.WriteLine("1. generate random")
-        Console.WriteLine("2. efficient buble")
-        Console.WriteLine("3. inefficiant bubbel (literally why)")
-        Console.WriteLine("4. insert sort")
-        Console.WriteLine("5. VERY efficient sort")
-        Console.Write("i canny bleive this")
+
+        Dim bound, array(50) As Integer
+
+
+        Console.Write("what be the bound for random nums: ")
+        bound = Console.ReadLine
+
+        For i As Integer = 0 To 50
+            array(i) = GenerateRandomInt(bound)
+            Console.Write(GenerateRandomInt(array(i) & ", "))
+        Next
+
+        Console.WriteLine()
+
+        Console.WriteLine("1. efficient buble")
+        Console.WriteLine("2. inefficiant bubbel (literally why)")
+        Console.WriteLine("3. insert sort")
+
+        Console.Write("what method of sorting would u like: ")
         selection = Console.ReadLine.ToString
 
         Select Case selection
             Case 1
-                Console.Write("what be the bound: ")
-                Console.WriteLine(GenerateRandomInt(CInt(Console.ReadLine)))
+                Call EfficientBubbleSort(array)
             Case 2
-                Call EfficientBubbleSort()
+                Call InefficiantBubbleSort(array)
             Case 3
-                Call InefficiantBubbleSort()
-            Case 4
-                Call insertsort()
-            Case 5
-                Call incrediblesort()
+                Call insertsort(array)
+                'Case 5
+                'Call BinarySearch()
         End Select
     End Sub
 
-    Sub EfficientBubbleSort()
-        Dim intarr(20) As Integer
+    Sub EfficientBubbleSort(ByRef array() As Integer)
         Dim rint As New Random
         Dim sorted As Boolean = True
         Dim temp As Integer
 
-        For i As Integer = 0 To 20
-            intarr(i) = GenerateRandomInt(100)
-        Next
-
         Do
             For i As Integer = 0 To 20
                 sorted = True
-                If intarr(i) > intarr(i + 1) Then
+                If array(i) > array(i + 1) Then
                     sorted = False
-                    temp = intarr(i + 1)
-                    intarr(i + 1) = intarr(i)
+                    temp = array(i + 1)
+                    array(i + 1) = array(i)
                 End If
             Next
         Loop While sorted = False
+
+        If BSearch() = True Then
+            Call BinarySearch(array)
+        End If
     End Sub
 
-    Sub InefficiantBubbleSort()
-        Dim intarr(20) As Integer
+    Sub InefficiantBubbleSort(ByRef array() As Integer)
         Dim rint As New Random
         Dim temp As Integer
 
-        For i As Integer = 0 To 20
-            intarr(i) = GenerateRandomInt(100)
-        Next
 
         For i As Integer = 0 To 20
-            If intarr(i) > intarr(i + 1) Then
-                temp = intarr(i + 1)
-                intarr(i + 1) = intarr(i)
+            If array(i) > array(i + 1) Then
+                temp = array(i + 1)
+                array(i + 1) = array(i)
             End If
         Next
+
+        If BSearch() = True Then
+            Call BinarySearch(array)
+        End If
     End Sub
 
-    Sub insertsort()
-        Dim intarr(20) As Integer
+    Sub insertsort(ByRef array() As Integer)
         Dim toInsert, currentitem As Integer
 
-        For i As Integer = 1 To 21
-            intarr(i) = GenerateRandomInt(100)
-        Next
 
-        For i As Integer = 2 To intarr.Length
-            toInsert = intarr(i)
+        For i As Integer = 2 To array.Length
+            toInsert = array(i)
             currentitem = i - 1
 
-            While intarr(currentitem) > toInsert And currentitem > 0
-                intarr(currentitem + 1) = intarr(currentitem)
+            While array(currentitem) > toInsert And currentitem > 0
+                array(currentitem + 1) = array(currentitem)
                 currentitem -= 1
             End While
 
-            intarr(currentitem + 1) = toInsert
+            array(currentitem + 1) = toInsert
         Next
+
+        If BSearch() = True Then
+            Call BinarySearch(array)
+        End If
     End Sub
 
-    Sub incrediblesort()
-        Dim array() As Integer = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+    Sub BinarySearch(ByVal array() As Integer)
+
+
+
+
     End Sub
 
-
+    Function BSearch() As Boolean
+        Console.Write("do u want to search or not (y/n): ")
+        If Console.ReadLine = "y" Then
+            Return True
+        ElseIf Console.ReadLine = "n" Then
+            Return False
+        Else
+            Console.Write("bruh")
+            Return False
+        End If
+    End Function
 
 
 
